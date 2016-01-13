@@ -1,11 +1,13 @@
 <?php namespace App\Http\Controllers\sximo;
 
+use Response;
 use App\Http\Controllers\controller;
 use App\Groups;
 use App\Models\Sximo\Module;
 use App\User;
 use Illuminate\Http\Request;
 use Validator, Input, Redirect; 
+use DB;
 
 class TablesController extends Controller 
 {
@@ -85,7 +87,7 @@ class TablesController extends Controller
                     
                 }
 
-                    $sql .= " `$field` $type $lenght  $null $default $ai ". ",\n";  
+                    $sql .= " `$field` $type $lenght  $null $default $ai, ". "\n";  
             }
 
         }
@@ -104,13 +106,13 @@ class TablesController extends Controller
             $sql .= 'PRIMARY KEY (`'.implode('`,`', $ai).'`)'. "\n";    
         }
        
-        $sql .= ") ENGINE=$engine DEFAULT CHARSET=utf8 ";
+        $sql .= ") ENGINE=$engine DEFAULT CHARSET=utf8; ";
 
-        //if($table == null) 
-    //  {
+        if($table != null) 
+      {
             try {
 
-                \DB::select( $sql );
+                DB::select( $sql );
 
             }catch(Exception $e){
 
@@ -124,9 +126,10 @@ class TablesController extends Controller
             return \Response::json(array('status'=>'success','message'=>''));
 
             
-        //} else {
-        //  return Response::json(array('status'=>'success','message'=>''));
-    //  }
+        } else {
+
+          return Response::json(array('status'=>'success','message'=>''));
+      }
 
 
         

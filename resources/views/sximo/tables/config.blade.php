@@ -166,7 +166,7 @@
 					success:       showResponse  
 				}  
 				$(this).ajaxSubmit(options); 
-				return false;
+				return true;
 							
 			} else {
 				return false;
