@@ -104,8 +104,9 @@
     </table>
 	<input type="hidden" name="md" value="" />
 	</div>
+	@include('footer_new')
 	{!! Form::close() !!}
-	@include('footer')
+
 	</div>
 </div>	
 	</div>	  
@@ -117,6 +118,12 @@ $(document).ready(function(){
 		$('#SximoTable').attr('action','{{ URL::to("aboutus/multisearch")}}');
 		$('#SximoTable').submit();
 	});
+
+	$("#filter_footer").click(function(){
+		$('#SximoTable').attr('action','{{ URL::to("aboutus/multisearch")}}');
+		$('#SximoTable').submit();
+	});
+	
 	
 });	
 </script>		
