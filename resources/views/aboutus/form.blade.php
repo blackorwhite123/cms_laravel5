@@ -82,7 +82,7 @@
 									   <input  type='file' name='file' id='upload' @if($row['aboutus_image'] =='') class='required' @endif style='width:150px !important;'  /> 
 									   <div id="result">
 											@if($row['aboutus_image'] != "")
-												<img width="150px" src="/uploads/images_upload/thumb/{{$row['aboutus_image']}}">
+												<img width="150px" src="/uploads/aboutus/thumb/{{$row['aboutus_image']}}">
 											@endif
 										</div>
 									   <br/>

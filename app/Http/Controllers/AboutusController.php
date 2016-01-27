@@ -148,12 +148,40 @@ class AboutusController extends Controller {
 
 	function postSave( Request $request)
 	{
+
 		$validator = Validator::make($request->all(), Aboutus::$rules);	
 
 		if ($validator->passes()) {
 			$data = $this->getDataPost('aboutus');
-			print_r($data);die;
-			$id = $this->model->insertRow($data , $request->input(''));
+			//print_r($data);die;
+			$type_pro =  !isset($data['aboutus_id']) ? "add" : "edit";
+			$data['aboutus_alias'] =  \SiteHelpers::seoUrl( trim($data['aboutus_name']));
+			$data = \SiteHelpers::processTimeUpdate($type_pro,$data);
+
+			if(!is_null(\Input::file('file')))
+			{
+				$file = \Input::file('file');
+				$destinationPath = './uploads/aboutus/';
+				$filename = $file->getClientOriginalName();
+				$extension = $file->getClientOriginalExtension(); //if you need extension of the file
+				$newfilename = 'aboutus_'.time().'.'.$extension;
+				$uploadSuccess = \Input::file('file')->move($destinationPath, $newfilename);
+				if( $uploadSuccess ) {
+				    $data['aboutus_image'] = $newfilename;
+				    $orgFile = $destinationPath.'/'.$newfilename;
+				    $thumbFile = $destinationPath.'/thumb/'.$newfilename;
+				    //SiteHelpers::resizewidth("213",$orgFile,$thumbFile);
+				    \SiteHelpers::resize_crop_image('600' , '450' , $orgFile ,	 $thumbFile);
+				    if($type_pro == "edit")
+				    {
+				    	$data_old = $this->model->getRow(\Input::get('aboutus_id'));
+				    	@unlink(ROOT .'/uploads/aboutus/'.$data_old->aboutus_image);
+				    	@unlink(ROOT .'/uploads/aboutus/thumb/'.$data_old->aboutus_image);
+				    }
+				}
+			}
+
+			$id = $this->model->insertRow($data , \Input::get('aboutus_id'));
 			
 			if(!is_null($request->input('apply')))
 			{
@@ -163,7 +191,7 @@ class AboutusController extends Controller {
 			}
 
 			// Insert logs into database
-			if($request->input('') =='')
+			if($request->input('aboutus_id') =='')
 			{
 				\SiteHelpers::auditTrail( $request , 'New Data with ID '.$id.' Has been Inserted !');
 			} else {
@@ -173,8 +201,8 @@ class AboutusController extends Controller {
 			return Redirect::to($return)->with('messagetext',\Lang::get('core.note_success'))->with('msgstatus','success');
 			
 		} else {
-
-			return Redirect::to('aboutus/update/')->with('messagetext',\Lang::get('core.note_error'))->with('msgstatus','error')
+			$id =  \Input::get('aboutus_id') ? \Input::get('aboutus_id') : "";
+			return Redirect::to('aboutus/update/'.$id)->with('messagetext',\Lang::get('core.note_error'))->with('msgstatus','error')
 			->withErrors($validator)->withInput();
 		}	
 	

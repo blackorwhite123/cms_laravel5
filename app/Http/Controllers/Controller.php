@@ -315,7 +315,9 @@ abstract class Controller extends BaseController {
 		
 		foreach($arrColumn as $col)
 		{
-			$arrdata[$col] = (\Input::get($col)) ? \Input::get($col) : "";
+			if(\Input::get($col) != "")
+				$arrdata[$col] = \Input::get($col);
+			//$arrdata[$col] = (\Input::get($col)) ? \Input::get($col) : "";
 		}
 		$lang = \Session::get('lang') == '' ? CNF_LANG : \Session::get('lang');
 		$arrdata['lang'] = $lang;

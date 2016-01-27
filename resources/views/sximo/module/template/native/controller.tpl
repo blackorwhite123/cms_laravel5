@@ -22,6 +22,7 @@ class {controller}Controller extends Controller {
 		{masterdetailmodel}
 		$this->info = $this->model->makeInfo( $this->module);
 		$this->access = $this->model->validAccess($this->info['id']);
+		$this->lang = \Lang::getLocale() == '' ? CNF_LANG : \Lang::getLocale();
 	
 		$this->data = array(
 			'pageTitle'	=> 	$this->info['title'],
@@ -45,6 +46,7 @@ class {controller}Controller extends Controller {
 		// End Filter sort and order for query 
 		// Filter Search for query		
 		$filter = (!is_null($request->input('search')) ? $this->buildSearch() : '');
+		$filter .=  " AND lang = '$this->lang'";
 
 		
 		$page = $request->input('page', 1);
@@ -63,6 +65,16 @@ class {controller}Controller extends Controller {
 		$page = $page >= 1 && filter_var($page, FILTER_VALIDATE_INT) !== false ? $page : 1;	
 		$pagination = new Paginator($results['rows'], $results['total'], $params['limit']);	
 		$pagination->setPath('{class}');
+
+		$test 						= $this->model->columnTable();
+		$arr_search 				= \SiteHelpers::arraySearch(Input::get('search'));
+		foreach($arr_search as $key=>$val){
+			if($key != "sort" && $key != "order" && $key != "rows"){
+				$test[$key]['value'] = $val;
+			}
+		}
+
+		$this->data['test'] = $test;
 		
 		$this->data['rowData']		= $results['rows'];
 		// Build Pagination 
@@ -139,12 +151,54 @@ class {controller}Controller extends Controller {
 	function postSave( Request $request)
 	{
 		
-		$rules = $this->validateForm();
-		$validator = Validator::make($request->all(), $rules);	
+		$validator = Validator::make($request->all(), {controller}::$rules);		
 		if ($validator->passes()) {
-			$data = $this->validatePost('tb_{class}');
-				
-			$id = $this->model->insertRow($data , $request->input('{key}'));
+			$data = $this->getDataPost('{class}');
+
+			$type_pro =  !isset($data['{key}']) ? "add" : "edit";
+
+			//Make alias
+			//$data['alias'] =  \SiteHelpers::seoUrl( trim($data['name']));
+
+			$data = \SiteHelpers::processTimeUpdate($type_pro,$data);
+
+			/* Nếu xử lý upload hình thì enable cái này lên
+			if(!is_null(\Input::file('file')))
+			{
+				$file = \Input::file('file');
+
+				//Edit Path
+				$destinationPath = './uploads/aboutus/';
+
+				$filename = $file->getClientOriginalName();
+				$extension = $file->getClientOriginalExtension(); //if you need extension of the file
+
+				//Edit file name
+				$newfilename = 'aboutus_'.time().'.'.$extension;
+
+				$uploadSuccess = \Input::file('file')->move($destinationPath, $newfilename);
+				if( $uploadSuccess ) {
+
+					//Edit name of field image
+				    $data['aboutus_image'] = $newfilename;
+
+				    $orgFile = $destinationPath.'/'.$newfilename;
+				    $thumbFile = $destinationPath.'/thumb/'.$newfilename;
+				    //SiteHelpers::resizewidth("213",$orgFile,$thumbFile);
+
+				    //Edit size thumb image
+				    \SiteHelpers::resize_crop_image('600' , '450' , $orgFile ,	 $thumbFile);
+
+				    if($type_pro == "edit")
+				    {
+				    	$data_old = $this->model->getRow(\Input::get('aboutus_id'));
+				    	//Edit folder name and field name
+				    	@unlink(ROOT .'/uploads/aboutus/'.$data_old->aboutus_image);
+				    	@unlink(ROOT .'/uploads/aboutus/thumb/'.$data_old->aboutus_image);
+				    }
+				}
+			}*/
+			$id = $this->model->insertRow($data , \Input::get('{key}'));
 			{masterdetailsave}
 			if(!is_null($request->input('apply')))
 			{
@@ -164,7 +218,7 @@ class {controller}Controller extends Controller {
 			return Redirect::to($return)->with('messagetext',\Lang::get('core.note_success'))->with('msgstatus','success');
 			
 		} else {
-
+			$id =  \Input::get('{key}') ? \Input::get('{key}') : "";
 			return Redirect::to('{class}/update/'.$id)->with('messagetext',\Lang::get('core.note_error'))->with('msgstatus','error')
 			->withErrors($validator)->withInput();
 		}	

@@ -6,12 +6,12 @@
     <!-- Page header -->
     <div class="page-header">
       <div class="page-title">
-        <h3> {{ $pageTitle }} <small>{{ $pageNote }}</small></h3>
+        <h3>{{ Lang::get('core.'.$pageTitle) }} <small>{{ Lang::get('core.'.$pageNote) }}</small></h3>
       </div>
 
       <ul class="breadcrumb">
         <li><a href="{{ URL::to('dashboard') }}"> Dashboard </a></li>
-        <li class="active">{{ $pageTitle }}</li>
+        <li class="active">{{ Lang::get('core.'.$pageTitle) }}</li>
       </ul>	  
 	  
     </div>
@@ -21,12 +21,6 @@
 
 <div class="sbox animated fadeInRight">
 	<div class="sbox-title"> <h5> <i class="fa fa-table"></i> </h5>
-<div class="sbox-tools" >
-		<a href="{{ url($pageModule) }}" class="btn btn-xs btn-white tips" title="Clear Search" ><i class="fa fa-trash-o"></i> Clear Search </a>
-		@if(Session::get('gid') ==1)
-			<a href="{{ URL::to('sximo/module/config/'.$pageModule) }}" class="btn btn-xs btn-white tips" title=" {{ Lang::get('core.btn_config') }}" ><i class="fa fa-cog"></i></a>
-		@endif 
-		</div>
 	</div>
 	<div class="sbox-content"> 	
 	    <div class="toolbar-line ">
@@ -37,12 +31,7 @@
 			@if($access['is_remove'] ==1)
 			<a href="javascript://ajax"  onclick="SximoDelete();" class="tips btn btn-sm btn-white" title="{{ Lang::get('core.btn_remove') }}">
 			<i class="fa fa-minus-circle "></i>&nbsp;{{ Lang::get('core.btn_remove') }}</a>
-			@endif 
-			<a href="{{ URL::to( 'aboutus/search') }}" class="btn btn-sm btn-white" onclick="SximoModal(this.href,'Advance Search'); return false;" ><i class="fa fa-search"></i> Search</a>				
-			@if($access['is_excel'] ==1)
-			<a href="{{ URL::to('aboutus/download?return='.$return) }}" class="tips btn btn-sm btn-white" title="{{ Lang::get('core.btn_download') }}">
-			<i class="fa fa-download"></i>&nbsp;{{ Lang::get('core.btn_download') }} </a>
-			@endif			
+			@endif 			
 		 
 		</div> 		
 

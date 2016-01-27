@@ -1,0 +1,57 @@
+	<div class="table-footer">
+	<div class="row">
+	 <div class="col-sm-5">
+	  <div class="table-actions" style=" padding: 10px 0">
+	 
+
+		   <?php /**/ $pages = array(5,10,20,30,50) /**/ ?>
+		   <?php /**/ $orders = array('asc','desc') /**/ ?>
+		<select name="rows" data-placeholder="<?php echo e(Lang::get('core.grid_show')); ?>" class="select-alt"  >
+		  <option value=""> Page </option>
+		  <?php foreach($pages as $p): ?>
+		  <option value="<?php echo e($p); ?>" 
+			<?php if(isset($pager['rows']) && $pager['rows'] == $p): ?> 
+				selected="selected"
+			<?php endif; ?>	
+		  ><?php echo e($p); ?></option>
+		  <?php endforeach; ?>
+		</select>
+		<select name="sort" data-placeholder="<?php echo e(Lang::get('core.grid_sort')); ?>" class="select-alt"  >
+		  <option value=""> Sort </option>	 
+		  <?php foreach($test as $field): ?>
+			  <option value="<?php echo e($field['name']); ?>" 
+				<?php if(isset($pager['sort']) && $pager['sort'] == $field['name']): ?> 
+					selected="selected"
+				<?php endif; ?>	
+			  ><?php echo e($field['label']); ?></option>
+		  <?php endforeach; ?>
+		 
+		</select>	
+		<select name="order" data-placeholder="<?php echo e(Lang::get('core.grid_order')); ?>" class="select-alt">
+		  <option value=""> Order</option>
+		   <?php foreach($orders as $o): ?>
+		  <option value="<?php echo e($o); ?>"
+			<?php if(isset($pager['order']) && $pager['order'] == $o): ?>
+				selected="selected"
+			<?php endif; ?>	
+		  ><?php echo e(ucwords($o)); ?></option>
+		 <?php endforeach; ?>
+		</select>	
+		<button type="submit" id="filter_footer" class="btn btn-primary btn-sm">GO</button>	
+		<input type="hidden" name="md" value="<?php echo e((isset($masterdetail['filtermd']) ? $masterdetail['filtermd'] : '')); ?>" />
+
+	  </div>					
+	  </div>
+	   <div class="col-sm-3">
+		<p class="text-center" style=" padding: 25px 0">
+		Total : <b><?php echo e($pagination->total()); ?></b>
+		</p>		
+	   </div>
+		<div class="col-sm-4">			 
+	  <?php echo $pagination->appends($pager)->render(); ?>
+
+	  </div>
+	  </div>
+	</div>	
+	
+	

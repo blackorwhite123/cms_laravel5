@@ -1,16 +1,14 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="page-content row">
     <!-- Page header -->
     <div class="page-header">
       <div class="page-title">
-        <h3>{{ Lang::get('core.'.$pageTitle) }} <small>{{ Lang::get('core.'.$pageNote) }}</small></h3>
+        <h3><?php echo e(Lang::get('core.'.$pageTitle)); ?> <small><?php echo e(Lang::get('core.'.$pageNote)); ?></small></h3>
       </div>
 
       <ul class="breadcrumb">
-        <li><a href="{{ URL::to('dashboard') }}"> Dashboard </a></li>
-        <li class="active">{{ Lang::get('core.'.$pageTitle) }}</li>
+        <li><a href="<?php echo e(URL::to('dashboard')); ?>"> Dashboard </a></li>
+        <li class="active"><?php echo e(Lang::get('core.'.$pageTitle)); ?></li>
       </ul>	  
 	  
     </div>
@@ -20,10 +18,10 @@
 
 <div class="sbox animated fadeInRight">
 	<div class="sbox-title"> 
-   		<a href="{{ URL::to('aboutus?return='.$return) }}" class="tips btn btn-xs btn-default pull-right" title="{{ Lang::get('core.btn_back') }}"><i class="fa fa-arrow-circle-left"></i>&nbsp;{{ Lang::get('core.btn_back') }}</a>
-		@if($access['is_add'] ==1)
-   		<a href="{{ URL::to('aboutus/update/'.$id.'?return='.$return) }}" class="tips btn btn-xs btn-primary pull-right" title="{{ Lang::get('core.btn_edit') }}"><i class="fa fa-edit"></i>&nbsp;{{ Lang::get('core.btn_edit') }}</a>
-		@endif 
+   		<a href="<?php echo e(URL::to('aboutus?return='.$return)); ?>" class="tips btn btn-xs btn-default pull-right" title="<?php echo e(Lang::get('core.btn_back')); ?>"><i class="fa fa-arrow-circle-left"></i>&nbsp;<?php echo e(Lang::get('core.btn_back')); ?></a>
+		<?php if($access['is_add'] ==1): ?>
+   		<a href="<?php echo e(URL::to('aboutus/update/'.$id.'?return='.$return)); ?>" class="tips btn btn-xs btn-primary pull-right" title="<?php echo e(Lang::get('core.btn_edit')); ?>"><i class="fa fa-edit"></i>&nbsp;<?php echo e(Lang::get('core.btn_edit')); ?></a>
+		<?php endif; ?> 
 	</div>
 	<div class="sbox-content" style="background:#fff;"> 	
 
@@ -32,73 +30,73 @@
 		
 					<tr>
 						<td width='30%' class='label-view text-right'>Aboutus Id</td>
-						<td>{{ $row->aboutus_id }} </td>
+						<td><?php echo e($row->aboutus_id); ?> </td>
 						
 					</tr>
 				
 					<tr>
 						<td width='30%' class='label-view text-right'>Aboutus Name</td>
-						<td>{{ $row->aboutus_name }} </td>
+						<td><?php echo e($row->aboutus_name); ?> </td>
 						
 					</tr>
 				
 					<tr>
 						<td width='30%' class='label-view text-right'>Aboutus Alias</td>
-						<td>{{ $row->aboutus_alias }} </td>
+						<td><?php echo e($row->aboutus_alias); ?> </td>
 						
 					</tr>
 				
 					<tr>
 						<td width='30%' class='label-view text-right'>Aboutus Description</td>
-						<td>{{ $row->aboutus_description }} </td>
+						<td><?php echo e($row->aboutus_description); ?> </td>
 						
 					</tr>
 				
 					<tr>
 						<td width='30%' class='label-view text-right'>Aboutus Content</td>
-						<td>{{ $row->aboutus_content }} </td>
+						<td><?php echo e($row->aboutus_content); ?> </td>
 						
 					</tr>
 				
 					<tr>
 						<td width='30%' class='label-view text-right'>Aboutus Image</td>
-						<td>{{ $row->aboutus_image }} </td>
+						<td><?php echo e($row->aboutus_image); ?> </td>
 						
 					</tr>
 				
 					<tr>
 						<td width='30%' class='label-view text-right'>Created</td>
-						<td>{{ $row->created }} </td>
+						<td><?php echo e($row->created); ?> </td>
 						
 					</tr>
 				
 					<tr>
 						<td width='30%' class='label-view text-right'>Updated</td>
-						<td>{{ $row->updated }} </td>
+						<td><?php echo e($row->updated); ?> </td>
 						
 					</tr>
 				
 					<tr>
 						<td width='30%' class='label-view text-right'>Status</td>
-						<td>{{ $row->status }} </td>
+						<td><?php echo e($row->status); ?> </td>
 						
 					</tr>
 				
 					<tr>
 						<td width='30%' class='label-view text-right'>Is Home</td>
-						<td>{{ $row->is_home }} </td>
+						<td><?php echo e($row->is_home); ?> </td>
 						
 					</tr>
 				
 					<tr>
 						<td width='30%' class='label-view text-right'>Lang</td>
-						<td>{{ $row->lang }} </td>
+						<td><?php echo e($row->lang); ?> </td>
 						
 					</tr>
 				
 					<tr>
 						<td width='30%' class='label-view text-right'>Views</td>
-						<td>{{ $row->views }} </td>
+						<td><?php echo e($row->views); ?> </td>
 						
 					</tr>
 				
@@ -113,4 +111,5 @@
 	</div>
 </div>
 	  
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

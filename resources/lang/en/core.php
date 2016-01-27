@@ -185,6 +185,8 @@ return array(
 	"form_status"					=> "Status",
 	"form_status_enable"					=> "Enable",
 	"form_status_disable"					=> "Disable",
+	"form_meta_keywords"					=> "Meta Keywords",
+	"form_meta_description"					=> "Meta Description",
 
 /* about_us */
 	"title_aboutus"					=> "About Us", 
@@ -194,4 +196,12 @@ return array(
 	"form_aboutus_description"		=> "Description",
 	"form_aboutus_content"			=> "Content",
 	"form_aboutus_image"			=> "Image",
+
+/* Table */
+	"table_name"					=> "Title", 
+	"table_status"					=> "Status", 
+	"table_created"					=> "Created", 
+
+	"disable"						=> "Disable", 
+	"enable"						=> "Enable", 
 );

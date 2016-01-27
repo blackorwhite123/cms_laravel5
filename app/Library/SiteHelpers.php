@@ -1373,6 +1373,41 @@ public static function alphaID($in, $to_num = false, $pad_up = false, $passKey =
 	
 	public static function seoUrl($str, $separator = 'dash', $lowercase = FALSE)
 	{
+		$coDau=array("à","á","ạ","ả","ã","â","ầ","ấ","ậ","ẩ","ẫ","ă","ằ","ắ"
+        ,"ặ","ẳ","ẵ","è","é","ẹ","ẻ","ẽ","ê","ề","ế","ệ","ể","ễ","ì","í","ị","ỉ","ĩ",
+            "ò","ó","ọ","ỏ","õ","ô","ồ","ố","ộ","ổ","ỗ","ơ"
+        ,"ờ","ớ","ợ","ở","ỡ",
+            "ù","ú","ụ","ủ","ũ","ư","ừ","ứ","ự","ử","ữ",
+            "ỳ","ý","ỵ","ỷ","ỹ",
+            "đ",
+            "À","Á","Ạ","Ả","Ã","Â","Ầ","Ấ","Ậ","Ẩ","Ẫ","Ă"
+        ,"Ằ","Ắ","Ặ","Ẳ","Ẵ",
+            "È","É","Ẹ","Ẻ","Ẽ","Ê","Ề","Ế","Ệ","Ể","Ễ",
+            "Ì","Í","Ị","Ỉ","Ĩ",
+            "Ò","Ó","Ọ","Ỏ","Õ","Ô","Ồ","Ố","Ộ","Ổ","Ỗ","Ơ"
+        ,"Ờ","Ớ","Ợ","Ở","Ỡ",
+            "Ù","Ú","Ụ","Ủ","Ũ","Ư","Ừ","Ứ","Ự","Ử","Ữ",
+            "Ỳ","Ý","Ỵ","Ỷ","Ỹ",
+            "Đ","ê","ù","à");
+        $khongDau=array("a","a","a","a","a","a","a","a","a","a","a"
+        ,"a","a","a","a","a","a",
+            "e","e","e","e","e","e","e","e","e","e","e",
+            "i","i","i","i","i",
+            "o","o","o","o","o","o","o","o","o","o","o","o"
+        ,"o","o","o","o","o",
+            "u","u","u","u","u","u","u","u","u","u","u",
+            "y","y","y","y","y",
+            "d",
+            "A","A","A","A","A","A","A","A","A","A","A","A"
+        ,"A","A","A","A","A",
+            "E","E","E","E","E","E","E","E","E","E","E",
+            "I","I","I","I","I",
+            "O","O","O","O","O","O","O","O","O","O","O","O"
+        ,"O","O","O","O","O",
+            "U","U","U","U","U","U","U","U","U","U","U",
+            "Y","Y","Y","Y","Y",
+            "D","e","u","a");
+        $str = str_replace($coDau,$khongDau,$str);
 		if ($separator == 'dash')
 		{
 			$search		= '_';
@@ -1619,6 +1654,69 @@ public static function alphaID($in, $to_num = false, $pad_up = false, $passKey =
 		}
 		
 		return $form;	
-	}	 		
+	}
+
+	public static function processTimeUpdate($type,$data){
+		if($type == "edit"){
+			unset($data["created"]);
+			$data["updated"] = time();
+		}else{
+			unset($data["updated"]);
+			$data["created"] = time();
+		}
+		return $data;
+	}
+
+	static function resize_crop_image($max_width, $max_height, $source_file, $dst_dir, $quality = 80){
+	    $imgsize = getimagesize($source_file);
+	    $width = $imgsize[0];
+	    $height = $imgsize[1];
+	    $mime = $imgsize['mime'];
+	 
+	    switch($mime){
+	        case 'image/gif':
+	            $image_create = "imagecreatefromgif";
+	            $image = "imagegif";
+	            break;
+	 
+	        case 'image/png':
+	            $image_create = "imagecreatefrompng";
+	            $image = "imagepng";
+	            $quality = 7;
+	            break;
+	 
+	        case 'image/jpeg':
+	            $image_create = "imagecreatefromjpeg";
+	            $image = "imagejpeg";
+	            $quality = 80;
+	            break;
+	 
+	        default:
+	            return false;
+	            break;
+	    }
+	     
+	    $dst_img = imagecreatetruecolor($max_width, $max_height);
+	    $src_img = $image_create($source_file);
+	     
+	    $width_new = $height * $max_width / $max_height;
+	    $height_new = $width * $max_height / $max_width;
+	    //if the new width is greater than the actual width of the image, then the height is too large and the rest cut off, or vice versa
+	    if($width_new > $width){
+	        //cut point by height
+	        $h_point = (($height - $height_new) / 2);
+	        //copy image
+	        imagecopyresampled($dst_img, $src_img, 0, 0, 0, $h_point, $max_width, $max_height, $width, $height_new);
+	    }else{
+	        //cut point by width
+	        $w_point = (($width - $width_new) / 2);
+	        imagecopyresampled($dst_img, $src_img, 0, 0, $w_point, 0, $max_width, $max_height, $width_new, $height);
+	    }
+	     
+	    $image($dst_img, $dst_dir, $quality);
+	 
+	    if($dst_img)imagedestroy($dst_img);
+	    if($src_img)imagedestroy($src_img);
+	}
 			
 }
