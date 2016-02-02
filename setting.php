@@ -8,7 +8,7 @@ define('CNF_METADESC','Write description for your site');
 define('CNF_GROUP','3');
 define('CNF_ACTIVATION','confirmation');
 define('CNF_MULTILANG','0');
-define('CNF_LANG','en');
+define('CNF_LANG','vi');
 define('CNF_REGIST','true');
 define('CNF_FRONT','true');
 define('CNF_RECAPTCHA','false');
