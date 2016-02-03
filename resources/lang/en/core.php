@@ -197,6 +197,11 @@ return array(
 	"form_aboutus_content"			=> "Content",
 	"form_aboutus_image"			=> "Image",
 
+/* FAQ */
+	"table_faq_id"					=> "ID",
+	"table_faq_quetion"				=> "Question",
+	"table_faq_answer"				=> "Answer",
+
 /* Table */
 	"table_name"					=> "Title", 
 	"table_status"					=> "Status", 

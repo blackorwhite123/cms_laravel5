@@ -31,7 +31,7 @@
 	<div class="sbox-content"> 	
 	    <div class="toolbar-line ">
 			@if($access['is_add'] ==1)
-	   		<a href="{{ URL::to('{class}/update') }}" class="tips btn btn-sm btn-white"  title="{{ Lang::get('core.btn_create') }}">
+	   		<a href="{{ URL::to('news/update') }}" class="tips btn btn-sm btn-white"  title="{{ Lang::get('core.btn_create') }}">
 			<i class="fa fa-plus-circle "></i>&nbsp;{{ Lang::get('core.btn_create') }}</a>
 			@endif  
 			@if($access['is_remove'] ==1)
@@ -43,7 +43,7 @@
 
 	
 	
-	 {!! Form::open(array('url'=>'{class}/delete/', 'class'=>'form-horizontal' ,'id' =>'SximoTable' )) !!}
+	 {!! Form::open(array('url'=>'news/delete/', 'class'=>'form-horizontal' ,'id' =>'SximoTable' )) !!}
 	 <div class="table-responsive" style="min-height:300px;">
     <table class="table table-striped ">
         <thead>
@@ -51,9 +51,9 @@
 				<th class="number"> No </th>
 				<th> <input type="checkbox" class="checkall" /></th>
 				
-				@foreach ($test as $t)
+				<!-- @foreach ($test as $t)
 						<th>{{ $t['label'] }}</th>
-				@endforeach
+				@endforeach -->
 				<th width="70" >{{ Lang::get('core.btn_action') }}</th>
 			  </tr>
         </thead>
@@ -62,11 +62,11 @@
         	<tr id="sximo-quick-search" >
 				<td> # </td>
 				<td> </td>
-				@foreach ($test as $t)
+				<!-- @foreach ($test as $t)
 					<td>						
 						<?php echo SiteHelpers::transFormsearch($t) ?>							
 					</td>
-				@endforeach
+				@endforeach -->
 				<td style="width:130px;">
 				<input type="hidden"  value="Search">
 				<button type="button"  class=" do-quick-search btn btn-sx btn-info"> GO</button></td>
@@ -74,18 +74,18 @@
             @foreach ($rowData as $row)
                 <tr>
 					<td width="30"> {{ ++$i }} </td>
-					<td width="50"><input type="checkbox" class="ids" name="ids[]" value="{{ $row->{key} }}" />  </td>									
-				 @foreach ($test as $field)
+					<td width="50"><input type="checkbox" class="ids" name="ids[]" value="{{ $row->news_id }}" />  </td>									
+				<!--  @foreach ($test as $field)
 					 <td>					 
 					 	{{ SiteHelpers::transSelect($field,$row) }}
 					 </td>
-				 @endforeach
+				 @endforeach -->
 				 <td>
 					 	@if($access['is_detail'] ==1)
-						<a href="{{ URL::to('{class}/show/'.$row->{key}.'?return='.$return)}}" class="tips btn btn-xs btn-primary" title="{{ Lang::get('core.btn_view') }}"><i class="fa  fa-search "></i></a>
+						<a href="{{ URL::to('news/show/'.$row->news_id.'?return='.$return)}}" class="tips btn btn-xs btn-primary" title="{{ Lang::get('core.btn_view') }}"><i class="fa  fa-search "></i></a>
 						@endif
 						@if($access['is_edit'] ==1)
-						<a  href="{{ URL::to('{class}/update/'.$row->{key}.'?return='.$return) }}" class="tips btn btn-xs btn-success" title="{{ Lang::get('core.btn_edit') }}"><i class="fa fa-edit "></i></a>
+						<a  href="{{ URL::to('news/update/'.$row->news_id.'?return='.$return) }}" class="tips btn btn-xs btn-success" title="{{ Lang::get('core.btn_edit') }}"><i class="fa fa-edit "></i></a>
 						@endif
 												
 					
@@ -109,12 +109,12 @@
 $(document).ready(function(){
 
 	$('.do-quick-search').click(function(){
-		$('#SximoTable').attr('action','{{ URL::to("{class}/multisearch")}}');
+		$('#SximoTable').attr('action','{{ URL::to("news/multisearch")}}');
 		$('#SximoTable').submit();
 	});
 
 	$("#filter_footer").click(function(){
-		$('#SximoTable').attr('action','{{ URL::to("{class}/multisearch")}}');
+		$('#SximoTable').attr('action','{{ URL::to("news/multisearch")}}');
 		$('#SximoTable').submit();
 	});
 	

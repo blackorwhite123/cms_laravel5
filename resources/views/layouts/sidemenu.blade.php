@@ -26,12 +26,12 @@
 			</div>
 			<div class="photo-header "> {!! SiteHelpers::avatar( 40 ) !!} </div>
 		</li> 
-		<li @if(Request::segment(1) == "aboutus") class="active" @endif>
+		<!-- <li @if(Request::segment(1) == "aboutus") class="active" @endif>
 			<a href="{{ URL::to('aboutus') }}">
 				<i class="fa fa-suitcase"></i> <span class="nav-label">
 				{{ Lang::get('core.title_aboutus') }}
 			</a>
-		</li>
+		</li> -->
 		@foreach ($sidebar as $menu)
 			 <li @if(Request::segment(1) == $menu['module']) class="active" @endif>
 			 	<a 

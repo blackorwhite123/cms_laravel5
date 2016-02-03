@@ -31,19 +31,20 @@
 	<div class="sbox-content"> 	
 	    <div class="toolbar-line ">
 			@if($access['is_add'] ==1)
-	   		<a href="{{ URL::to('{class}/update') }}" class="tips btn btn-sm btn-white"  title="{{ Lang::get('core.btn_create') }}">
+	   		<a href="{{ URL::to('faq/update') }}" class="tips btn btn-sm btn-white"  title="{{ Lang::get('core.btn_create') }}">
 			<i class="fa fa-plus-circle "></i>&nbsp;{{ Lang::get('core.btn_create') }}</a>
 			@endif  
 			@if($access['is_remove'] ==1)
 			<a href="javascript://ajax"  onclick="SximoDelete();" class="tips btn btn-sm btn-white" title="{{ Lang::get('core.btn_remove') }}">
 			<i class="fa fa-minus-circle "></i>&nbsp;{{ Lang::get('core.btn_remove') }}</a>
-			@endif 	
+			@endif 
+					
 		 
 		</div> 		
 
 	
 	
-	 {!! Form::open(array('url'=>'{class}/delete/', 'class'=>'form-horizontal' ,'id' =>'SximoTable' )) !!}
+	 {!! Form::open(array('url'=>'faq/delete/', 'class'=>'form-horizontal' ,'id' =>'SximoTable' )) !!}
 	 <div class="table-responsive" style="min-height:300px;">
     <table class="table table-striped ">
         <thead>
@@ -58,7 +59,7 @@
 			  </tr>
         </thead>
 
-        <tbody>
+        <tbody>    
         	<tr id="sximo-quick-search" >
 				<td> # </td>
 				<td> </td>
@@ -70,11 +71,11 @@
 				<td style="width:130px;">
 				<input type="hidden"  value="Search">
 				<button type="button"  class=" do-quick-search btn btn-sx btn-info"> GO</button></td>
-			  </tr>          						
+			  </tr>    						
             @foreach ($rowData as $row)
                 <tr>
 					<td width="30"> {{ ++$i }} </td>
-					<td width="50"><input type="checkbox" class="ids" name="ids[]" value="{{ $row->{key} }}" />  </td>									
+					<td width="50"><input type="checkbox" class="ids" name="ids[]" value="{{ $row->faq_id }}" />  </td>									
 				 @foreach ($test as $field)
 					 <td>					 
 					 	{{ SiteHelpers::transSelect($field,$row) }}
@@ -82,10 +83,10 @@
 				 @endforeach
 				 <td>
 					 	@if($access['is_detail'] ==1)
-						<a href="{{ URL::to('{class}/show/'.$row->{key}.'?return='.$return)}}" class="tips btn btn-xs btn-primary" title="{{ Lang::get('core.btn_view') }}"><i class="fa  fa-search "></i></a>
+						<a href="{{ URL::to('faq/show/'.$row->faq_id.'?return='.$return)}}" class="tips btn btn-xs btn-primary" title="{{ Lang::get('core.btn_view') }}"><i class="fa  fa-search "></i></a>
 						@endif
 						@if($access['is_edit'] ==1)
-						<a  href="{{ URL::to('{class}/update/'.$row->{key}.'?return='.$return) }}" class="tips btn btn-xs btn-success" title="{{ Lang::get('core.btn_edit') }}"><i class="fa fa-edit "></i></a>
+						<a  href="{{ URL::to('faq/update/'.$row->faq_id.'?return='.$return) }}" class="tips btn btn-xs btn-success" title="{{ Lang::get('core.btn_edit') }}"><i class="fa fa-edit "></i></a>
 						@endif
 												
 					
@@ -99,8 +100,8 @@
     </table>
 	<input type="hidden" name="md" value="" />
 	</div>
-	@include('footer_new')
 	{!! Form::close() !!}
+	@include('footer_new')
 	</div>
 </div>	
 	</div>	  
@@ -109,12 +110,11 @@
 $(document).ready(function(){
 
 	$('.do-quick-search').click(function(){
-		$('#SximoTable').attr('action','{{ URL::to("{class}/multisearch")}}');
+		$('#SximoTable').attr('action','{{ URL::to("faq/multisearch")}}');
 		$('#SximoTable').submit();
 	});
-
 	$("#filter_footer").click(function(){
-		$('#SximoTable').attr('action','{{ URL::to("{class}/multisearch")}}');
+		$('#SximoTable').attr('action','{{ URL::to("faq/multisearch")}}');
 		$('#SximoTable').submit();
 	});
 	
