@@ -66,7 +66,7 @@ class NewsController extends Controller {
 		$pagination = new Paginator($results['rows'], $results['total'], $params['limit']);	
 		$pagination->setPath('news');
 
-		// $test 						= $this->model->columnTable();
+		$test 						= $this->model->columnTable();
 		$arr_search 				= \SiteHelpers::arraySearch(Input::get('search'));
 		foreach($arr_search as $key=>$val){
 			if($key != "sort" && $key != "order" && $key != "rows"){
@@ -74,7 +74,7 @@ class NewsController extends Controller {
 			}
 		}
 
-		// $this->data['test'] = $test;
+		$this->data['test'] = $test;
 		
 		$this->data['rowData']		= $results['rows'];
 		// Build Pagination 
@@ -162,25 +162,24 @@ class NewsController extends Controller {
 
 			$data = \SiteHelpers::processTimeUpdate($type_pro,$data);
 
-			/* Nếu xử lý upload hình thì enable cái này lên
 			if(!is_null(\Input::file('file')))
 			{
 				$file = \Input::file('file');
 
 				//Edit Path
-				$destinationPath = './uploads/aboutus/';
+				$destinationPath = './uploads/news/';
 
 				$filename = $file->getClientOriginalName();
 				$extension = $file->getClientOriginalExtension(); //if you need extension of the file
 
 				//Edit file name
-				$newfilename = 'aboutus_'.time().'.'.$extension;
+				$newfilename = 'news_'.time().'.'.$extension;
 
 				$uploadSuccess = \Input::file('file')->move($destinationPath, $newfilename);
 				if( $uploadSuccess ) {
 
 					//Edit name of field image
-				    $data['aboutus_image'] = $newfilename;
+				    $data['news_picture'] = $newfilename;
 
 				    $orgFile = $destinationPath.'/'.$newfilename;
 				    $thumbFile = $destinationPath.'/thumb/'.$newfilename;
@@ -191,13 +190,13 @@ class NewsController extends Controller {
 
 				    if($type_pro == "edit")
 				    {
-				    	$data_old = $this->model->getRow(\Input::get('aboutus_id'));
+				    	$data_old = $this->model->getRow(\Input::get('news_id'));
 				    	//Edit folder name and field name
-				    	@unlink(ROOT .'/uploads/aboutus/'.$data_old->aboutus_image);
-				    	@unlink(ROOT .'/uploads/aboutus/thumb/'.$data_old->aboutus_image);
+				    	@unlink(ROOT .'/uploads/news/'.$data_old->aboutus_image);
+				    	@unlink(ROOT .'/uploads/news/thumb/'.$data_old->aboutus_image);
 				    }
 				}
-			}*/
+			}
 			$id = $this->model->insertRow($data , \Input::get('news_id'));
 			
 			if(!is_null($request->input('apply')))

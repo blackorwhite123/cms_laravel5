@@ -31,15 +31,10 @@
 <div class="col-md-12">
 						<fieldset><legend> News</legend>
 									
-								  <div class="form-group  " >
-									<label for="News Id" class=" control-label col-md-4 text-left"> News Id </label>
-									<div class="col-md-6">
-									  {!! Form::text('news_id', $row['news_id'],array('class'=>'form-control', 'placeholder'=>'',   )) !!} 
-									 </div> 
-									 <div class="col-md-2">
-									 	
-									 </div>
-								  </div> 					
+					
+									  {!! Form::hidden('news_id', $row['news_id'],array('class'=>'form-control', 'placeholder'=>'',   )) !!} 
+									 
+											
 								  <div class="form-group  " >
 									<label for="News Name" class=" control-label col-md-4 text-left"> News Name </label>
 									<div class="col-md-6">
@@ -52,58 +47,40 @@
 								  <div class="form-group  " >
 									<label for="News Content" class=" control-label col-md-4 text-left"> News Content </label>
 									<div class="col-md-6">
-									  <textarea name='news_content' rows='5' id='news_content' class='form-control '  
-				           >{{ $row['news_content'] }}</textarea> 
+									  <textarea name='news_content' rows='5' id='news_content' class='form-control'>{{ $row['news_content'] }}</textarea> 
 									 </div> 
 									 <div class="col-md-2">
 									 	
 									 </div>
-								  </div> 					
-								  <div class="form-group  " >
-									<label for="News Alias" class=" control-label col-md-4 text-left"> News Alias </label>
-									<div class="col-md-6">
-									  {!! Form::text('news_alias', $row['news_alias'],array('class'=>'form-control', 'placeholder'=>'',   )) !!} 
-									 </div> 
-									 <div class="col-md-2">
-									 	
-									 </div>
-								  </div> 					
-								  <div class="form-group  " >
+								  </div> 							
+								 <div class="form-group  " >
 									<label for="Status" class=" control-label col-md-4 text-left"> Status </label>
 									<div class="col-md-6">
-									  {!! Form::text('status', $row['status'],array('class'=>'form-control', 'placeholder'=>'',   )) !!} 
+									  	<label class='radio radio-inline'>
+										<input type='radio' name='status' value ='0' required @if($row['status'] == '0' || $row['status'] == '') checked="checked" @endif > {{\Lang::get('core.form_status_disable')}} </label>
+										<label class='radio radio-inline'>
+										<input type='radio' name='status' value ='1' required @if($row['status'] == '1') checked="checked" @endif > {{\Lang::get('core.form_status_enable')}} </label> 
 									 </div> 
 									 <div class="col-md-2">
 									 	
 									 </div>
-								  </div> 					
-								  <div class="form-group  " >
-									<label for="Created" class=" control-label col-md-4 text-left"> Created </label>
-									<div class="col-md-6">
-									  {!! Form::text('created', $row['created'],array('class'=>'form-control', 'placeholder'=>'',   )) !!} 
-									 </div> 
-									 <div class="col-md-2">
+								  </div> 						
+								  <div class="form-group  " >	
+									  <label for="News Image" class=" control-label col-md-4 text-left"> {{\Lang::get('core.table_news_picture')}} </label>
+									  <div class="col-md-6">
+										   <input  type='file' name='file' id='upload' @if($row['news_picture'] =='') class='required' @endif style='width:150px !important;'  /> 
+										   <div id="result">
+												@if($row['news_picture'] != "")
+													<img width="150px" src="/uploads/news/thumb/{{$row['news_picture']}}">
+												@endif
+											</div>
+										   <br/>
+										 	<p class="text-danger">{{ $errors->first('news_picture') }}</p>
+									  </div>
+									  <div class="col-md-2">
 									 	
-									 </div>
-								  </div> 					
-								  <div class="form-group  " >
-									<label for="Updated" class=" control-label col-md-4 text-left"> Updated </label>
-									<div class="col-md-6">
-									  {!! Form::text('updated', $row['updated'],array('class'=>'form-control', 'placeholder'=>'',   )) !!} 
-									 </div> 
-									 <div class="col-md-2">
-									 	
-									 </div>
-								  </div> 					
-								  <div class="form-group  " >
-									<label for="News Picture" class=" control-label col-md-4 text-left"> News Picture </label>
-									<div class="col-md-6">
-									  {!! Form::text('news_picture', $row['news_picture'],array('class'=>'form-control', 'placeholder'=>'',   )) !!} 
-									 </div> 
-									 <div class="col-md-2">
-									 	
-									 </div>
-								  </div> 					
+									  </div>
+								  </div> 				
 								  <div class="form-group  " >
 									<label for="Cat Id" class=" control-label col-md-4 text-left"> Cat Id </label>
 									<div class="col-md-6">
@@ -116,8 +93,7 @@
 								  <div class="form-group  " >
 									<label for="News Description" class=" control-label col-md-4 text-left"> News Description </label>
 									<div class="col-md-6">
-									  <textarea name='news_description' rows='5' id='news_description' class='form-control '  
-				           >{{ $row['news_description'] }}</textarea> 
+									  <textarea name='news_description' rows='5' id='news_description' class='form-control'>{{ $row['news_description'] }}</textarea> 
 									 </div> 
 									 <div class="col-md-2">
 									 	
@@ -133,10 +109,7 @@
 									 </div>
 								  </div> </fieldset>
 			</div>
-			
-			
 
-		
 			<div style="clear:both"></div>	
 				
 					

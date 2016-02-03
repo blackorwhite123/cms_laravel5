@@ -51,9 +51,9 @@
 				<th class="number"> No </th>
 				<th> <input type="checkbox" class="checkall" /></th>
 				
-				<!-- @foreach ($test as $t)
+				@foreach ($test as $t)
 						<th>{{ $t['label'] }}</th>
-				@endforeach -->
+				@endforeach
 				<th width="70" >{{ Lang::get('core.btn_action') }}</th>
 			  </tr>
         </thead>
@@ -62,11 +62,11 @@
         	<tr id="sximo-quick-search" >
 				<td> # </td>
 				<td> </td>
-				<!-- @foreach ($test as $t)
+				@foreach ($test as $t)
 					<td>						
 						<?php echo SiteHelpers::transFormsearch($t) ?>							
 					</td>
-				@endforeach -->
+				@endforeach 
 				<td style="width:130px;">
 				<input type="hidden"  value="Search">
 				<button type="button"  class=" do-quick-search btn btn-sx btn-info"> GO</button></td>
@@ -75,11 +75,11 @@
                 <tr>
 					<td width="30"> {{ ++$i }} </td>
 					<td width="50"><input type="checkbox" class="ids" name="ids[]" value="{{ $row->news_id }}" />  </td>									
-				<!--  @foreach ($test as $field)
+				 @foreach ($test as $field)
 					 <td>					 
 					 	{{ SiteHelpers::transSelect($field,$row) }}
 					 </td>
-				 @endforeach -->
+				 @endforeach
 				 <td>
 					 	@if($access['is_detail'] ==1)
 						<a href="{{ URL::to('news/show/'.$row->news_id.'?return='.$return)}}" class="tips btn btn-xs btn-primary" title="{{ Lang::get('core.btn_view') }}"><i class="fa  fa-search "></i></a>
